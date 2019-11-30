@@ -1,9 +1,9 @@
 package com.spring.community.community.dto;
 
 public class GithubUser {
-    public String name;
-    public Long id;
-    public String bio;
+    private String name;
+    private Long id;
+    private String bio;
 
     public String getName() {
         return name;
@@ -27,5 +27,14 @@ public class GithubUser {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    @Override
+    public String toString() {
+        return "GithubUser{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", bio='" + bio + '\'' +
+                '}';
     }
 }
