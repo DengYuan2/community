@@ -7,4 +7,20 @@
 [Github OAuth](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)   
 [MySQL](https://www.runoob.com/mysql/mysql-tutorial.html)   
 ##脚本
-
+```sql
+create table USER
+(
+    ID           int auto_increment primary key not null ,
+    NAME         VARCHAR(50),
+    ACCOUNT_ID   VARCHAR(100),
+    TOKEN        VARCHAR(50),
+    GMT_CREATE   BIGINT,
+    GMT_MODIFIED BIGINT,
+);
+```
+```sql
+ALTER TABLE USER add bio VARCHAR(256) NULL;
+```
+```bash
+mvn flyway:migrate
+```
