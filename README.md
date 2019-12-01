@@ -6,6 +6,8 @@
 [Bootstrap](https://v3.bootcss.com/getting-started/#download)   
 [Github OAuth](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)   
 [MySQL](https://www.runoob.com/mysql/mysql-tutorial.html)   
+##工具
+lombok   
 ##脚本
 ```sql
 create table USER
