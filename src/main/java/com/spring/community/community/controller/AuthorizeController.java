@@ -5,6 +5,7 @@ import com.spring.community.community.dto.GithubUser;
 import com.spring.community.community.mapper.UserMapper;
 import com.spring.community.community.model.User;
 import com.spring.community.community.provider.GithubProvider;
+import com.spring.community.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class AuthorizeController {
     private GithubProvider githubProvider;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -54,13 +55,23 @@ public class AuthorizeController {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatar_url());
-            userMapper.insert(user);
+            userService.createOrUpdate(user);
             response.addCookie(new Cookie("token",token));
-
             return "redirect:/";//到index.html
         }else{
             //登录失败，重新登录
             return "redirect:/";//到index.html
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,HttpServletResponse response){
+        //需要删除session和cookie
+        request.getSession().removeAttribute("user");
+        //cookie要如此删除
+        Cookie cookie = new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return  "redirect:/";
     }
 }

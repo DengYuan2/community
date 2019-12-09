@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 //@EnableWebMvc
-//拦截器把静态资源css、js等拦截的话，把上面的@EnableWebMvc注解去掉就可以啦
+//拦截器把静态资源css、js等拦截了，把上面的@EnableWebMvc注解去掉就可以啦
 public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private SessionInterceptor sessionInterceptor;
@@ -21,4 +21,5 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(sessionInterceptor).addPathPatterns("/**");//对哪些地址进行拦截,这里是全部
     }
+
 }

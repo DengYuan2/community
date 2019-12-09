@@ -1,5 +1,6 @@
 package com.spring.community.community.mapper;
 
+import com.spring.community.community.dto.QuestionDTO;
 import com.spring.community.community.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -26,4 +27,7 @@ public interface QuestionMapper {
 
     @Select("select count(1) from question where creator=#{userId}")
     Integer countByUserId(@RequestParam(value = "userId")Integer userId);
+
+    @Select("select * from question where id=#{id}")
+    Question getById(@RequestParam(value = "id") Integer id);
 }
