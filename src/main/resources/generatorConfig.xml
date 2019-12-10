@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!--看文档：http://mybatis.org/generator/configreference/xmlconfig.html-->
+<generatorConfiguration>
+        <context id="DB2Tables" targetRuntime="MyBatis3">
+         <!--用于分页功能，可以按偏移量搜索数据库-->
+            <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+            <!--根据application.properties的内容进行更改-->
+        <jdbcConnection driverClass="org.h2.Driver"
+                        connectionURL="jdbc:h2:~/community"
+                        userId="sa"
+                        password="123">
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+            <!--自定义创建路径,targetPackage会自动创建(也可以自己建好)，targetProject要制定对，不会自动创建-->
+            <!--另外：Windows的文件路径要用\,mac用/-->
+        <javaModelGenerator targetPackage="com.spring.community.community.model" targetProject="src\main\java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!--同上个注释-->
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src\main\resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.spring.community.community.mapper"  targetProject="src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+<!--将tableName改为我们需要的表名-->
+        <table tableName="user" domainObjectName="User" ></table>
+        <table tableName="question" domainObjectName="Question" ></table>
+<!--            <columnOverride column="DATE_FIELD" property="startDate" />-->
+
+    </context>
+</generatorConfiguration>

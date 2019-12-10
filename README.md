@@ -26,6 +26,7 @@ ALTER TABLE USER add bio VARCHAR(256) NULL;
 ```
 ```bash
 mvn flyway:migrate
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 ```
 ####
 
