@@ -2,6 +2,8 @@ package com.spring.community.community.service;
 
 import com.spring.community.community.dto.PageDTO;
 import com.spring.community.community.dto.QuestionDTO;
+import com.spring.community.community.exception.CustomizeErrorCode;
+import com.spring.community.community.exception.CustomizeException;
 import com.spring.community.community.mapper.QuestionMapper;
 import com.spring.community.community.mapper.UserMapper;
 import com.spring.community.community.model.Question;
@@ -11,6 +13,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.util.resources.cldr.rof.CurrencyNames_rof;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +103,9 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+        if (question==null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         User user = userMapper.selectByPrimaryKey(question.getCreator());
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
@@ -120,7 +126,10 @@ public class QuestionService {
             updateQuestion.setDescription(question.getDescription());
             QuestionExample example=new QuestionExample();
             example.createCriteria().andIdEqualTo(question.getId());//额，其实我觉得应该直接用传过来的question，只要设置一个gmtModified就好了
-            questionMapper.updateByExampleSelective(updateQuestion,example);
+            int updated = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if (updated!=1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 }
