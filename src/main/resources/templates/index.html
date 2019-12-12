@@ -72,7 +72,7 @@
                         <!--加上链接，使通过点击标题跳转到需要的页面-->
                         <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
                     </h4>
-                    <span th:text="${question.description}"></span><br>
+<!--                    <span th:text="${question.description}"></span><br>  该条语句并没有显示出来，不过也不需要-->
                     <span class="text-desc"> • <span th:text="${question.commentCount}"></span> 个回复 • <span
                             th:text="${question.viewCount}"></span> 次浏览 • <span
                             th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>

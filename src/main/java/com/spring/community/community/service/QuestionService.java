@@ -4,6 +4,7 @@ import com.spring.community.community.dto.PageDTO;
 import com.spring.community.community.dto.QuestionDTO;
 import com.spring.community.community.exception.CustomizeErrorCode;
 import com.spring.community.community.exception.CustomizeException;
+import com.spring.community.community.mapper.QuestionExtMapper;
 import com.spring.community.community.mapper.QuestionMapper;
 import com.spring.community.community.mapper.UserMapper;
 import com.spring.community.community.model.Question;
@@ -22,6 +23,8 @@ import java.util.List;
 public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     @Autowired
     private UserMapper userMapper;
@@ -116,6 +119,9 @@ public class QuestionService {
     public void createOrUpdate(Question question) {
         if (question.getId()==null){
             question.setGmtCreate(System.currentTimeMillis());
+            question.setViewCount(0);
+            question.setCommentCount(0);
+            question.setLikeCount(0);
             question.setGmtModified(question.getGmtCreate());
             questionMapper.insert(question);
         }else{
@@ -131,5 +137,12 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    public void incView(Integer id) {
+        Question question=new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }

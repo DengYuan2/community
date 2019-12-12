@@ -25,6 +25,8 @@ public class QuestionController {
 //        if (user==null) return "redirect:/";
 
         QuestionDTO questionDTO = questionService.getById(id);
+        //累加阅读数
+        questionService.incView(id);
         model.addAttribute("question",questionDTO);
         return "question";
     }
