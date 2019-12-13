@@ -66,7 +66,7 @@ public class QuestionService {
         return pageDTO;
     }
 
-    public PageDTO list(int userId, Integer page, Integer size) {
+    public PageDTO list(Long userId, Integer page, Integer size) {
         QuestionExample questionExample=new QuestionExample();
         questionExample.createCriteria().andCreatorEqualTo(userId);
         Integer totalCount = (int)questionMapper.countByExample(questionExample);
@@ -104,7 +104,7 @@ public class QuestionService {
         return pageDTO;
     }
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
         if (question==null){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
@@ -139,7 +139,7 @@ public class QuestionService {
         }
     }
 
-    public void incView(Integer id) {
+    public void incView(Long id) {
         Question question=new Question();
         question.setId(id);
         question.setViewCount(1);

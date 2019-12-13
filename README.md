@@ -8,7 +8,8 @@
 [MySQL](https://www.runoob.com/mysql/mysql-tutorial.html)  
 [thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html) 
 ##工具   
-lombok   
+lombok
+postman   
 ##脚本
 ```sql
 create table USER

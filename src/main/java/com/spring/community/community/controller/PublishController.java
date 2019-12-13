@@ -25,7 +25,7 @@ public class PublishController {
 
     //用于点击“编辑”进行问题的修改
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable(name = "id")Integer id,Model model){
+    public String edit(@PathVariable(name = "id")Long id,Model model){
         QuestionDTO question = questionService.getById(id);
         //写成下面的也可，都能拿到我们需要的数据，不过questionService中有个根据id得到QuestionDTO对象的方法了，可以直接用，不用再注入QuestionMapper的对象了
         //Question question = questionMapper.getById(id);
@@ -46,7 +46,7 @@ public class PublishController {
             @RequestParam(value = "title",required = false)String title,
             @RequestParam(value = "description",required = false)String description,
             @RequestParam(value = "tag",required = false)String tag,
-            @RequestParam(value = "id",required = false)Integer id,
+            @RequestParam(value = "id",required = false)Long id,
             HttpServletRequest request,Model model){
         model.addAttribute("title",title);
         model.addAttribute("description",description);

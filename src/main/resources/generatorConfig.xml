@@ -34,7 +34,8 @@
 <!--将tableName改为我们需要的表名-->
         <table tableName="user" domainObjectName="User" ></table>
         <table tableName="question" domainObjectName="Question" ></table>
-<!--            <columnOverride column="DATE_FIELD" property="startDate" />-->
+        <table tableName="comment" domainObjectName="Comment" ></table>
+
 
     </context>
 </generatorConfiguration>
