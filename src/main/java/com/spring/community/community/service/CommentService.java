@@ -10,6 +10,7 @@ import com.spring.community.community.model.Comment;
 import com.spring.community.community.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CommentService {
@@ -23,6 +24,7 @@ public class CommentService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
+    @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId()==null || comment.getParentId()==0){
             throw new CustomizeException(CustomizeErrorCode.TATGET_PARAM_NOT_FOUND);
@@ -42,9 +44,9 @@ public class CommentService {
             if (question==null){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }else {
-                commentMapper.insert(comment);
+                commentMapper.insert(comment);//希望45行和47行一起成功或失败，故需要作事务处理,在方法上加@Transactional注解
                 question.setCommentCount(1);
-                questionExtMapper.incCommentCount(question);
+                questionExtMapper.incCommentCount(question);//希望45行和47行一起成功或失败，故需要作事务处理，在方法上加@Transactional注解
             }
         }
     }
