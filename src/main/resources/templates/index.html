@@ -9,6 +9,17 @@
     <script src="js/jquery-3.4.1.min.js" type="application/javascript"></script>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
+<script type="application/javascript">
+    window.onload = function () {
+        // 这种页面的debug方式
+        debugger;
+        var closable = window.localStorage.getItem("closable");
+        if (closable=="true"){//因为取出来的值是String类型
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
 <body>
 
 <!--将改导航部分封装，否则每创建一个.html都需要把该部分复制过去，太麻烦啦；当然，上面的第8、9行也是后来加的，也要每次复制，不过由于内容较少，暂时不处理-->
