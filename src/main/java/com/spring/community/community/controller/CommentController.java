@@ -28,10 +28,10 @@ public class CommentController {
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
     public Object post(@RequestBody CommentDTO commentDTO,//如此，页面传过来的json数据可以自动转为CommentDTO类型
                        HttpServletRequest request){
-//        User user = (User) request.getSession().getAttribute("user");
-//        if (user==null){
-//            return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
-//        }
+        User user = (User) request.getSession().getAttribute("user");
+        if (user==null){
+            return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
+        }
         Comment comment = new Comment();
         comment.setParentId(commentDTO.getParentId());
         comment.setContent(commentDTO.getContent());

@@ -27,7 +27,7 @@ public class CommentService {
     @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId()==null || comment.getParentId()==0){
-            throw new CustomizeException(CustomizeErrorCode.TATGET_PARAM_NOT_FOUND);
+            throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
         if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())){
             throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
