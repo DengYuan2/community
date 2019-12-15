@@ -11,8 +11,8 @@
 </head>
 <script type="application/javascript">
     window.onload = function () {
-        // 这种页面的debug方式
-        debugger;
+        // 这种页面的debug方式,直接写个debugger，不过我用不起来，不知道咋用的
+        //debugger;
         var closable = window.localStorage.getItem("closable");
         if (closable=="true"){//因为取出来的值是String类型
             window.close();
