@@ -6,6 +6,7 @@ import com.spring.community.community.exception.CustomizeErrorCode;
 import com.spring.community.community.model.Comment;
 import com.spring.community.community.model.User;
 import com.spring.community.community.service.CommentService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +23,17 @@ public class CommentController {
     private CommentService commentService;
 
     @ResponseBody
-    @RequestMapping(value = "/comment",method = RequestMethod.POST)
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
     public Object post(@RequestBody CommentCreateDTO commentCreateDTO,//如此，页面传过来的json数据可以自动转为CommentDTO类型
-                       HttpServletRequest request){
+                       HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        if (user==null){
+        if (user == null) {
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
+        }
+        //if (commentCreateDTO == null || commentCreateDTO.getContent() == null || commentCreateDTO.getContent()=="") {
+        //引入了commons-lang3依赖后可以直接下面这么写。isBlank方法其实就是封装了的上面的两个判断
+        if (commentCreateDTO == null || StringUtils.isBlank(commentCreateDTO.getContent())) {//前端也要有这样的判断
+            return ResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
         }
         Comment comment = new Comment();
         comment.setParentId(commentCreateDTO.getParentId());

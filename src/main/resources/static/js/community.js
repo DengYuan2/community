@@ -1,6 +1,10 @@
 function post() {
     var questionId = $("#question_id").val();
     var content = $("#comment_content").val();
+    if (!content){//js可以直接如此判断是否内容为空
+        alert("臣妾看不到隐身的评论啊~~");
+        return;
+    }
     $.ajax({
         type: "POST",
         url: "/comment",
@@ -11,8 +15,8 @@ function post() {
             "type":1
         }),
         success: function (response){
-            if (response.code==200){//如果回复成功，则将回复功能的框及相关事物隐藏
-                $("#comment_section").hide();
+            if (response.code==200){//如果回复成功，刷新页面
+                window.location.reload();
             }else{
                 if (response.code==2003){//如果是没有登录的情况
                     var isAccepted = confirm(response.message);//如果用户点击确定按钮即代表要登录，故要跳转到登录页面

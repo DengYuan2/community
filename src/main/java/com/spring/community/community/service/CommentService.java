@@ -66,9 +66,10 @@ public class CommentService {
     public List<CommentDTO> listByQuestionId(Long id) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria().andParentIdEqualTo(id).andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+        commentExample.setOrderByClause("gmt_create desc");//按时间倒叙排列
         List<Comment> comments = commentMapper.selectByExample(commentExample);
         if (comments.size()==0) return new ArrayList<>();
-        //获取去重的评论人
+        //获取去重的评论人的id
         Set<Long> commentators = comments.stream().map(comment -> comment.getCommentator()).collect(Collectors.toSet());//java8语法，拿到评论者们的id
         List<Long> userIds = new ArrayList<>();
         userIds.addAll(commentators);

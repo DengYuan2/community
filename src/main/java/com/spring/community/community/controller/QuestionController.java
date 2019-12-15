@@ -2,6 +2,7 @@ package com.spring.community.community.controller;
 
 import com.spring.community.community.dto.CommentDTO;
 import com.spring.community.community.dto.QuestionDTO;
+import com.spring.community.community.model.User;
 import com.spring.community.community.service.CommentService;
 import com.spring.community.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,9 @@ public class QuestionController {
     private CommentService commentService;
 
     @GetMapping("/question/{id}")
-    public String question(@PathVariable(name = "id")Long id,Model model){
-//        User user = (User)request.getSession().getAttribute("user");
-//        if (user==null) return "redirect:/";
+    public String question(@PathVariable(name = "id")Long id,Model model,HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("user");
+        if (user==null) return "redirect:/";
         QuestionDTO questionDTO = questionService.getById(id);
         List<CommentDTO> comments= commentService.listByQuestionId(id);
         //累加阅读数
