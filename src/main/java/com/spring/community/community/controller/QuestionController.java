@@ -2,6 +2,7 @@ package com.spring.community.community.controller;
 
 import com.spring.community.community.dto.CommentDTO;
 import com.spring.community.community.dto.QuestionDTO;
+import com.spring.community.community.enums.CommentTypeEnum;
 import com.spring.community.community.model.User;
 import com.spring.community.community.service.CommentService;
 import com.spring.community.community.service.QuestionService;
@@ -24,10 +25,10 @@ public class QuestionController {
 
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id")Long id,Model model,HttpServletRequest request){
-        User user = (User)request.getSession().getAttribute("user");
-        if (user==null) return "redirect:/";
+//        User user = (User)request.getSession().getAttribute("user");
+//        if (user==null) return "redirect:/";
         QuestionDTO questionDTO = questionService.getById(id);
-        List<CommentDTO> comments= commentService.listByQuestionId(id);
+        List<CommentDTO> comments= commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
         //累加阅读数
         questionService.incView(id);
         model.addAttribute("question",questionDTO);
