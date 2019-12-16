@@ -75,37 +75,56 @@ function collapseComments(e) {
         comments.removeClass("in");//如果已经展开了，点击这个icon的时候会删除in这个class，使折叠回去
         e.classList.remove("active");
     } else {
-
-        $.getJSON("/comment/" + id, function (data) {//data为拿到的二级评论，是ResultDTO类型的json格式，好像
-            console.log(data);
-            debugger
-            var commentBody = $("comment-body-"+id);
-            var items=[];
-            $.each( data.data, function(comment) {//data.data的后面一个data是ResultDTO的属性哦，为commentDTO类型
-            var c = $("<div/>",{
-                "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
-                html:comment.content
-                });
-
-                items.push(c);
-            });
-
-            commentBody.append(
-                $("<div/>",{
-                    "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments",
-                    "id":"comment-"+id,
-                    html:items.join("")
-                }));
-            $("<div/>",{
-                "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments",
-                "id":"comment-"+id,
-                html:items.join("")
-            }).appendTo(commentBody);
-
+        var subCommentContainer = $("#comment-" + id);//额，上面获取过了呀
+        if (subCommentContainer.children().length != 1) {//如果点击了一次，打开子评论，关掉后打开，就会又重复一遍，所以需要确定是否已经加载过
+            //了，避免重复加载;此处就是如果已经有了子评论的元素【因为原本就只有"评论一下哟~~"回复框那一个子元素】，直接展开即可，不用再次加载
             comments.addClass("in");//加上in这个class【应该是js自带的】，使产生折叠被打开的效果
             e.classList.add("active");//community.css下写了一个.menu.active{}，使comment icon被点击展开时保持蓝色
+        } else {//相当于直接写在了html中啊,写的是question.html中注释掉的68-84行代码，就是照着它写的呀
+            $.getJSON("/comment/" + id, function (data) {//data为拿到的二级评论，是ResultDTO类型的json格式，好像
 
-        });
+                comments.addClass("in");//加上in这个class【应该是js自带的】，使产生折叠被打开的效果
+                e.classList.add("active");//community.css下写了一个.menu.active{}，使comment icon被点击展开时保持蓝色
+
+                $.each(data.data.reverse(), function (index, comment) {//data.data的后面一个data是ResultDTO的属性哦，为commentDTO类型
+                    var mediaLeftElement = $("<div/>", {
+                        "class": "media-left"
+                    }).append($("<img/>", {
+                        "class": "media-object img-rounded media-body",
+                        "src": comment.user.avatarUrl
+                    }));
+
+                    var mediaBodyElement = $("<div/>", {
+                        "class": "media-body"
+                    }).append($("<h5/>", {
+                        "class": "media-heading",
+                        "html": comment.user.name
+                    })).append($("<div/>", {
+                        "html": comment.content
+                    })).append($("<div/>", {
+                        "class": "menu"
+                    }).append($("<span/>", {//注意层级，此处是该div里的span
+                        "class": "pull-right",
+                        "html": moment(comment.gmtCreate).format('YYYY-MM-DD')//引入了momment.js，通过该网站https://momentjs.com/，得知该格式与一般格式不同，这部分是大写的
+                    })));
+
+                    var mediaElement = $("<div/>", {
+                        "class": "media"
+                    }).append(mediaLeftElement).append(mediaBodyElement);
+
+                    var commentElement = $("<div/>", {
+                        "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
+                    }).append(mediaElement);
+
+                    subCommentContainer.prepend(commentElement);//prepend() 方法在被选元素的开头(仍位于内部)插入指定内容；
+                    // 如果直接用append，那么就会在"评论一下哟~~"那个框的后面了，不符合要求。但是这样也存
+                    // 在一个问题：拿到的评论内容是按时间在后的倒序排列的，一旦再如此倒过来，就不是最近发表的言论在最上面了，所以在data.data后加个reverse来解决
+
+                });
+            });
+
+        }
+
     }
 }
  
