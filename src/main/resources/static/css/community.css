@@ -82,10 +82,12 @@ body {
 .question-title {
     margin-top: 20px;
 }
-.question-tag{
+
+.question-tag {
     margin-right: 5px;
 }
-.question-related{
+
+.question-related {
     line-height: 20px;
     font-size: 12px;
     margin-left: 0;
@@ -112,6 +114,16 @@ body {
 .menu .comment-icon:hover {
     color: #499ef3;
 }
-.question-wechat{
-width: 100%;
+
+.question-wechat {
+    width: 100%;
+}
+
+.publish-tag-tab {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.publish-tag-tab .label-info{
+    margin-right: 5px;
 }

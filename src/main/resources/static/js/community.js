@@ -127,4 +127,22 @@ function collapseComments(e) {
 
     }
 }
+
+function selectTags(e) {
+    var value = e.getAttribute("data-tag");
+    var previous = $("#tag").val();
+    //为了防止重复增加某一标签
+    if (previous.indexOf(value)==-1){//没有该标签时才添加
+        if (previous){//已经有了用户自己写的标签时
+            $("#tag").val(previous+','+value);
+        }else{
+            $("#tag").val(value);
+        }
+    }
+
+
+}
  
+function showSelectTag() {
+    $("#select-tag").show();
+}
