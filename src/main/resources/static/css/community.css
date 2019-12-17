@@ -82,6 +82,16 @@ body {
 .question-title {
     margin-top: 20px;
 }
+.question-tag{
+    margin-right: 5px;
+}
+.question-related{
+    line-height: 20px;
+    font-size: 12px;
+    margin-left: 0;
+    padding-left: 0;
+    list-style: none;
+}
 
 .sub-comments {
     border-radius: 5px;
@@ -101,4 +111,7 @@ body {
 
 .menu .comment-icon:hover {
     color: #499ef3;
+}
+.question-wechat{
+width: 100%;
 }

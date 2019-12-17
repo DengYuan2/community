@@ -25,6 +25,7 @@ create table USER
 ```sql
 ALTER TABLE USER add bio VARCHAR(256) NULL;
 ```
+对表的改动：
 ```bash
 mvn flyway:migrate
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
