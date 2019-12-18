@@ -1,8 +1,9 @@
 package com.spring.community.community.service;
 
-import com.spring.community.community.dto.CommentCreateDTO;
 import com.spring.community.community.dto.CommentDTO;
 import com.spring.community.community.enums.CommentTypeEnum;
+import com.spring.community.community.enums.NotificationTypeEnum;
+import com.spring.community.community.enums.NotificationStatusEnum;
 import com.spring.community.community.exception.CustomizeErrorCode;
 import com.spring.community.community.exception.CustomizeException;
 import com.spring.community.community.mapper.*;
@@ -36,8 +37,10 @@ public class CommentService {
     @Autowired
     private CommentExtMapper commentExtMapper;
 
+    @Autowired
+    private NotificationMapper notificationMapper;
     @Transactional
-    public void insert(Comment comment) {
+    public void insert(Comment comment, User commentator) {
         if (comment.getParentId()==null || comment.getParentId()==0){
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
@@ -50,9 +53,17 @@ public class CommentService {
             if (dbComment==null){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+            Question question = questionMapper.selectByPrimaryKey(dbComment.getParentId());
+            if (question==null){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
+
             commentMapper.insert(comment);
+            //增加评论数
             dbComment.setCommentCount(1);
             commentExtMapper.incCommentCount(dbComment);
+            //创建通知
+            createNotify(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT,question.getId());
         }else{//回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
             if (question==null){
@@ -61,8 +72,24 @@ public class CommentService {
                 commentMapper.insert(comment);//希望45行和47行一起成功或失败，故需要作事务处理,在方法上加@Transactional注解
                 question.setCommentCount(1);
                 questionExtMapper.incCommentCount(question);//希望45行和47行一起成功或失败，故需要作事务处理，在方法上加@Transactional注解
+                createNotify(comment, question.getCreator(),commentator.getName(),question.getTitle(),NotificationTypeEnum.REPLY_QUESTION,question.getId());
             }
         }
+    }
+
+    //创建通知
+    private void createNotify(Comment comment, Long receiver,  String notifierName, String outerTitle,NotificationTypeEnum notificationType,Long outerId) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationType.getType());
+        notification.setOuterid(outerId);
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiver);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
+        notificationMapper.insert(notification);
+
     }
 
     public List<CommentDTO> listByTargetId(Long id,CommentTypeEnum type) {

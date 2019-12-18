@@ -72,7 +72,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h3><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h3>
             <hr>
-            <div class="media" th:each="question:${pageNation.questions}">
+            <div class="media" th:each="question:${pageNation.data}">
                 <div class="media-left">
                     <a href="#" th:if="${question.user!=null}">
                         <img class="media-object img-rounded" th:src="${question.user.avatarUrl}">

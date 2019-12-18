@@ -57,7 +57,7 @@ public class QuestionService {
         questionExample.setOrderByClause("gmt_create desc");
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
         List<QuestionDTO> questionDTOS = new ArrayList<>();
-        PageDTO pageDTO = new PageDTO();
+        PageDTO<QuestionDTO> pageDTO = new PageDTO<>();
         for (Question question : questions) {
             User user = userMapper.selectByPrimaryKey(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
@@ -66,7 +66,7 @@ public class QuestionService {
             questionDTOS.add(questionDTO);
         }
         pageDTO.setPageNation(totalPage, page);
-        pageDTO.setQuestions(questionDTOS);
+        pageDTO.setData(questionDTOS);
         //Integer totalCount = questionMapper.count();
 
         return pageDTO;
@@ -95,7 +95,7 @@ public class QuestionService {
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
 
         List<QuestionDTO> questionDTOS = new ArrayList<>();
-        PageDTO pageDTO = new PageDTO();
+        PageDTO<QuestionDTO> pageDTO = new PageDTO<>();
         for (Question question : questions) {
             User user = userMapper.selectByPrimaryKey(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
@@ -104,7 +104,7 @@ public class QuestionService {
             questionDTOS.add(questionDTO);
         }
         pageDTO.setPageNation(totalPage, page);
-        pageDTO.setQuestions(questionDTOS);
+        pageDTO.setData(questionDTOS);
         //Integer totalCount = questionMapper.count();
 
         return pageDTO;

@@ -9,9 +9,9 @@ import java.util.List;
  * 封装分页信息
  */
 @Data
-public class PageDTO {
+public class PageDTO<T> {
     //分页形式参照Elastic中文社区
-    private List<QuestionDTO> questions;
+    private List<T> data;
     //<<  < 1 2 3 4 5 >  >>
     private boolean showFirstPage;
     private boolean showPrevious;
