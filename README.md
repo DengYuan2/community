@@ -6,7 +6,9 @@
 [Bootstrap](https://v3.bootcss.com/getting-started/#download)   
 [Github OAuth](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)   
 [MySQL](https://www.runoob.com/mysql/mysql-tutorial.html)  
-[thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html) 
+[thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)   
+[Markdown 插件](https://pandao.github.io/editor.md/)
+
 ##工具   
 lombok
 postman   
